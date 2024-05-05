@@ -1,0 +1,59 @@
+*** Settings ***
+
+Documentation    Issue Test scenario. CRUD Operation: Create, Read, Update, Delete
+
+# TODO: Write Precondition and Postcondition, Tags
+Pre Condition    Tips: Project must be created by the user before
+Post Condition
+Tags    Issue
+
+*** Variables ***
+
+# NOTE: Please Remove your login credential before uploading Assignments
+
+# TODO: Write Issue creation field variables, Updated name of the issue
+ProjectUrl    https://gitlab.com/group-slug-here/project-slug-here /-/issues/new
+IssueName     Test_Issue
+UpdatedIssueName    Updated_Test_Issue
+
+*** Test Cases ***
+
+# TODO: Write Positive Test Cases and Test Process steps
+
+Create Issue
+    [Documentation]    Create an issue
+    [Tags]    Positive
+    Navigate To Project Issues Page    ${ProjectUrl}
+    Click Create Issue Button
+    Verify New Issue Form Should Be Visible
+    Input Issue Name    ${IssueName}
+    Submit Issue Form
+    Verify Issue Created Successfully Message    ${IssueName}
+
+Update Name Of Issue
+    [Documentation]    Update the name of the issue
+    [Tags]    Positive
+    Navigate To Project Issues Page    ${ProjectUrl}
+    Click Edit Issue Button    ${IssueName}
+    Verify Edit Issue Form Should Be Visible
+    Update Issue Name    ${IssueName}    ${UpdatedIssueName}
+    Submit Issue Form
+    Verify Issue Updated Successfully Message    ${UpdatedIssueName}
+
+Create Second Issue With Previous Updated Name
+    [Documentation]    Create a second issue with the previously updated name
+    [Tags]    Positive
+    Navigate To Project Issues Page    ${ProjectUrl}
+    Click Create Issue Button
+    Verify New Issue Form Should Be Visible
+    Input Issue Name    ${UpdatedIssueName}
+    Submit Issue Form
+    Verify Issue Created Successfully Message    ${UpdatedIssueName}
+
+Delete First Issue
+    [Documentation]    Delete the first issue
+    [Tags]    Positive
+    Navigate To Project Issues Page    ${ProjectUrl}
+    Click Delete Issue Button    ${IssueName}
+    Confirm Delete Issue
+    Verify Issue Deleted Successfully Message    ${IssueName}

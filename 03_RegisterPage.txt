@@ -1,0 +1,62 @@
+*** Settings ***
+
+Documentation    User Registration Test scenario with verification, valid and invalid credentials.
+
+Pre Condition    
+Post Condition   
+Tags             registration, TS-2-Registration
+
+*** Variables ***
+
+LoginUrl    https://gitlab.com/users/sign_up
+Valid_Username    valid_user123
+Valid_Password    StrongPassword123
+Invalid_Email    invalid_email.com
+
+*** Test Cases ***
+
+Register User With Valid Username And Password
+    [Documentation]    Registers a user with valid username and password.
+    [Tags]    Positive
+    Navigate To Register Page    ${LoginUrl}
+    Input Username    ${Valid_Username}
+    Input Password    ${Valid_Password}
+    Submit Registration Form
+    Verify Registration Success
+
+Register User With Same Username
+    [Documentation]    Registers a user with an existing username.
+    [Tags]    Negative
+    Navigate To Register Page    ${LoginUrl}
+    Input Username    ${Valid_Username}
+    Input Password    ${Valid_Password}
+    Submit Registration Form
+    Verify Username Already Exists Message
+
+Register User With Empty Password
+    [Documentation]    Registers a user with an empty password.
+    [Tags]    Negative
+    Navigate To Register Page    ${LoginUrl}
+    Input Username    ${Valid_Username}
+    Input Password    ${Empty}
+    Submit Registration Form
+    Verify Password Required Message
+
+Register User With Invalid Email
+    [Documentation]    Registers a user with an invalid email.
+    [Tags]    Negative
+    Navigate To Register Page    ${LoginUrl}
+    Input Username    ${Valid_Username}
+    Input Password    ${Valid_Password}
+    Input Email    ${Invalid_Email}
+    Submit Registration Form
+    Verify Invalid Email Format Message
+
+Register User Without Recaptcha
+    [Documentation]    Registers a user without completing the reCAPTCHA.
+    [Tags]    Negative
+    Navigate To Register Page    ${LoginUrl}
+    Input Username    ${Valid_Username}
+    Input Password    ${Valid_Password}
+    Submit Registration Form Without Recaptcha
+    Verify Recaptcha Required Message

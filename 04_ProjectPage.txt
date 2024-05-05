@@ -1,0 +1,70 @@
+*** Settings ***
+
+Documentation    Project Test scenario. CRUD Operation: Create, Read, Update, Delete
+
+# TODO: Write Precondition, Postcondition, Tags
+Pre Condition
+Post Condition
+Tags    Project
+
+*** Variables ***
+
+# NOTE: Please Remove your login credential before uploading Assignments
+
+# TODO: Write Project creation field variables
+ProjectPageUrl    https://gitlab.com/projects/new
+Create a new blank project: https://gitlab.com/projects/new#blank_project
+Create a new project from the template: https://gitlab.com/projects/new#create_from_template
+
+*** Test Cases ***
+
+# TODO: Write Positive and Negative Test Cases and Test Process steps
+
+Create Blank Project
+    [Documentation]    Create a blank project
+    [Tags]    Positive
+    Navigate To Project Page    ${ProjectPageUrl}
+    Click Create Project Button
+    Verify New Project Form Should Be Visible
+    Input Project Name    ${NewProjectName}
+    Submit Project Form
+    Verify Project Created Successfully Message    ${NewProjectName}
+
+Create Template Project
+    [Documentation]    Create a template project
+    [Tags]    Positive
+    Navigate To Project Page    ${ProjectPageUrl}
+    Click Create Project Button
+    Verify New Project Form Should Be Visible
+    Input Project Name    ${TemplateName}
+    # Add more steps for setting up the template project as needed
+    Submit Project Form
+    Verify Project Created Successfully Message    ${TemplateName}
+
+Update Name Of Template Project
+    [Documentation]    Update the name of the template project
+    [Tags]    Positive
+    Navigate To Project Page    ${ProjectPageUrl}
+    Click Edit Project Button    ${TemplateName}
+    Verify Edit Project Form Should Be Visible
+    Update Project Name    ${TemplateName}    ${NewProjectName}
+    Submit Project Form
+    Verify Project Updated Successfully Message    ${NewProjectName}
+
+Delete Template Project
+    [Documentation]    Delete the template project
+    [Tags]    Positive
+    Navigate To Project Page    ${ProjectPageUrl}
+    Click Delete Project Button    ${TemplateName}
+    Confirm Delete Project
+    Verify Project Deleted Successfully Message    ${TemplateName}
+
+Create Project With Existing Name
+    [Documentation]    Attempt to create a project with an existing name
+    [Tags]    Negative
+    Navigate To Project Page    ${ProjectPageUrl}
+    Click Create Project Button
+    Verify New Project Form Should Be Visible
+    Input Project Name    ${ExistingProject}
+    Submit Project Form
+    Verify Duplicate Project Name Error Message
